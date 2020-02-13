@@ -104,9 +104,14 @@ void PQ<T>::dequeue(void)
 template<class T>
 T  PQ<T>::get_front()
 {
-    // create a pointer
-    Node<T> *newPointer;
-
+    // I will search and find the priority of the before and current item in the list and compare them, 
+    //will store and continue walkin on the list, will return the final biggest priority
+    Node<T> *walker;
+    Node<T> *current;
+    Node<T> *returnData;
+    int currentPrio = 0;
+    int walkerPrio = 0;
+       
     // check to see if the list is empty then return
     if (head == NULL)
     {
@@ -114,9 +119,31 @@ T  PQ<T>::get_front()
     }
     else
     {
-       return head->get_data();
-    }
-    
+        // set walker equals to head pointer, meaning we are at the begining of the list     
+       while(head != NULL)
+       {
+           current = head;
+           currentPrio = current->get_prio();
+
+           walker = current->get_next();
+           walkerPrio = walker->get_prio();
+
+            // compare cuurent priority to next priority to see what is bigger
+            if (currentPrio > walkerPrio)
+            {
+                returnData = current;
+            }
+            else
+            {
+                returnData = walker;
+            }
+            
+           head = head->get_next();
+
+
+       }
+       return returnData->get_data();
+    }   
 }
 
 template<class T>
@@ -166,7 +193,7 @@ void PQ<T>::clear(void)
                 } 
                 toDelete = newPointer;
                 newPointer = newPointer->get_next();
-                delete(toDelete)       
+                delete(toDelete);       
             }          
         }
         
@@ -178,23 +205,17 @@ void PQ<T>::clear(void)
 template<class T>
 int PQ<T>::get_count(void)
 {
-    Node<T> *itr = head;
-    Node<T> *count;
+    Node<T> *itr;
+    int walker = 0;
 
+    // if list isn't empty, we will do our walkings and count the elements
+    itr = head;
     while (itr != NULL)
     {
-        count = itr->get_data();
         itr = itr->get_next();
-        
-        if (count > 0)
-        {
-            return count;
-        }
-        else
-        {
-            return 0;
-        }
-        
+        // we will increase walker by 1 anytime we set itr pointer to the next item
+        walker += 1;
     }
+    return walker;
 }
 
