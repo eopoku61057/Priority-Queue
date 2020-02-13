@@ -57,6 +57,7 @@ void PQ<T>::enqueue(T &data, int priority)
     Node<T> *new_node = new Node<T>(data, priority);
 
     // check to see if head is null, point head and tail to the new node
+    
     if (head == NULL)
     {
         head = new_node;
